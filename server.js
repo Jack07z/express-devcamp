@@ -6,18 +6,20 @@ const colors = require('colors')
 const listEndpoint = require('express-list-endpoints')
 //las rutas de ruta 
 const bootcampRoutes = require('./routes/BootcampRoutes') 
-
+const CoursesRoute = require('./routes/CoursesRoute') 
 
 //3. establecer archivo de configuracion 
 dotenv.config({
     path:'./config/config.env'
 })
-//console.log(process.env.PORT)
+console.log(process.env.PORT)
 
 //Crear el objeto aplicacion 
 //para el servidor de desarrollo 
 const app = express()
 
+//rutas de proyecto 
+app.use('/api/v1/Courses' , CoursesRoute)
 //rutas de proyecto 
 app.use('/api/v1/bootcamps' , bootcampRoutes)
 
@@ -30,6 +32,6 @@ app.get('/' , (request , response )=>{
         "data" : "request exitosa"
     })
 })
-app.listen(process.nextTick.PORT , ()=>{
+app.listen(process.env.PORT , ()=>{
     console.log(`servidor activo en puerto 5000`.bgGreen)
 })
