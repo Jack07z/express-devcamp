@@ -14,14 +14,78 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   courses.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    weeks: DataTypes.INTEGER,
-    enroll_cost: DataTypes.FLOAT,
-    minimum_skill: DataTypes.STRING
+    title: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        unique(value) {
+          
+          return courses.findOne({where:{title:value}})
+            .then((title) => {
+              if (title) {
+                throw new Error('title ya utilizado');
+              }
+            })
+        },
+        isAlpha: {
+          args: true,
+          msg: "title debe tener solo letras"
+        },
+        notNull: {
+          args: true,
+          msg: "title debe estar presente"
+        },
+        notEmpty: {
+          args: true,
+          msg: "title no debe ser vacio"
+        },
+      }
+    },
+    description: {
+      type:DataTypes.STRING,
+      validate: {
+        len:{
+          args:[10,50],
+          msg:"description minimo 10 y maximo 50 caracteres"
+        }
+      }
+    },
+    weeks: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      isDate: true, 
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "weeks no debe ser vacio"
+        },
+      }
+    },
+    enroll_cost: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      isNumeric: true,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "cost no debe ser vacio"
+        },
+      }
+    },
+    minimum_skill: {
+      type:DataTypes.STRING,
+      validate: {
+        len:{
+          args:[10,50],
+          msg:"description minimo 10 y maximo 50 caracteres"
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'courses',
+    timestamps: false
   });
   return courses;
 };

@@ -11,6 +11,7 @@ const listEndpoint = require('express-list-endpoints')
 const bootcampRoutes = require('./routes/BootcampRoutes') 
 const CoursesRoute = require('./routes/CoursesRoute') 
 const UserRoutes = require('./routes/UserRoutes') 
+const ReviewsRoutes = require('./routes/ReviewRoute') 
 
 //3. establecer archivo de configuracion 
 dotenv.config({
@@ -33,6 +34,7 @@ app.use('/api/v1/Courses' , CoursesRoute)
 app.use('/api/v1/users', UserRoutes)
 //rutas de proyecto 
 app.use('/api/v1/bootcamps' , bootcampRoutes)
+app.use('/api/v1/Reviews' ,  ReviewsRoutes)
 
 //imprimir la lista de endpoints validas del proyecto
 console.log(listEndpoint(app))
